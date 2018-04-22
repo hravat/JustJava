@@ -13,6 +13,8 @@ package com.example.android.justjava;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import java.text.NumberFormat;
 
@@ -34,9 +36,25 @@ public class MainActivity extends AppCompatActivity {
     int numberofCoffes=0;
     int coffeePricePerCup=5;
 
+
     public void submitOrder(View view) {
-        String total=Integer.toString(numberofCoffes*coffeePricePerCup);
-        displayMessage(total);
+
+        CheckBox whppedCreamCB = (CheckBox) findViewById(R.id.whipped_cream);
+        boolean hasWC = whppedCreamCB.isChecked();
+
+        CheckBox ChocolateCB = (CheckBox) findViewById(R.id.chocolate);
+        boolean hasChoco = ChocolateCB.isChecked();
+
+        EditText editText_Name = (EditText) findViewById(R.id.text_name);
+        String name = editText_Name.getText().toString();
+
+
+
+
+        //String total=Integer.toString(numberofCoffes*(coffeePricePerCup+whippedCramCost+chocolateCost));
+        int price=calculatePrice(hasWC,hasChoco);
+        String message= createOrderSummary(price,hasWC,hasChoco,name);
+        displayMessage(message);
 
     }
 
@@ -71,18 +89,56 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This method displays the given price on the screen.
      */
-    private void displayPrice(String number) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
-    }
+   // private void displayPrice(String number) {
+     //   TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
+    //    priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
+  //  }
 
 
     /**
      * This method displays the given text on the screen.
      */
     private void displayMessage(String message) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText("Total: "+message+"\n Thank You !");
+        TextView ordersummaaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        ordersummaaryTextView.setText(message);
     }
+
+    private int calculatePrice(Boolean hasWC,Boolean hasChoco) {
+
+        int whippedCramCost=0;
+        int chocolateCost=0;
+
+
+        if(hasWC==true)
+        {
+
+            whippedCramCost=1;
+
+        }
+
+        if(hasChoco==true)
+        {
+
+            chocolateCost=2;
+
+        }
+
+        return  numberofCoffes*(coffeePricePerCup+whippedCramCost+chocolateCost);
+
+    }
+
+    private String createOrderSummary(int price,boolean hasWC,boolean hasChoco,String name) {
+
+        return "Name: "+name+"\n"+
+                "Add whipped cream ? "+hasWC+"\n"+
+                "Add chocolate ? "+hasChoco+"\n"+
+                "Quantity: "+numberofCoffes+"\n"+
+                "Total "+price+"\n"+
+                "Thank You !"
+        ;
+
+    }
+
+
 
 }
