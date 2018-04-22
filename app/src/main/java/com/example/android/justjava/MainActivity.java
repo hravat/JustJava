@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void increment(View view) {
 
+        if (numberofCoffes != 100)
         numberofCoffes=numberofCoffes+1;
         display(numberofCoffes);
     }
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void decrement(View view) {
 
-        if (numberofCoffes != 0)
+        if (numberofCoffes != 1)
         numberofCoffes=numberofCoffes-1;
         display(numberofCoffes);
 
